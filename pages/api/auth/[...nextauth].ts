@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
       else if (new URL(url).origin === baseUrl) return "/";
       return "/";
     },
+
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
       session.user.id = user.id;
