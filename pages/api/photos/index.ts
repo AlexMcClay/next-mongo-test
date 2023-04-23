@@ -15,7 +15,7 @@ export default async function handler(
     if (query.user === "me") {
       // Get photos for the current user
       if (!session) {
-        res.status(401).json({ error: "Unauthorized" });
+        res.status(401).json({});
         return;
       }
 
@@ -31,6 +31,7 @@ export default async function handler(
       res.status(200).json(photos);
       return;
     } else {
+      //   console.log("other user");
       const photos = await prisma.photo.findMany({
         where: {
           user: {
@@ -51,13 +52,22 @@ export default async function handler(
 
     const photo = await prisma.photo.create({
       data: {
+        time: {
+          set: {
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        },
         user: {
-          id: session.user.id,
-          name: session.user.name,
+          set: {
+            id: session.user.id,
+            name: session.user.name,
+          },
         },
         ...req.body,
       },
     });
+    console.log("CREATED");
     res.status(200).json(photo);
     return;
   }
