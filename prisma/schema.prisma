@@ -43,3 +43,22 @@ model User {
   Account       Account[]
   Session       Session[]
 }
+
+model Photo {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
+  name      String
+  caption   String?
+  time PhotoTime
+  user PhotoUser
+}
+
+type PhotoTime {
+  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+type PhotoUser {
+  name String
+  id String @db.ObjectId
+}
